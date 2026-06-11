@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { VSCodePanel } from "./vscode/VSCodePanel";
 import { HistoryPanel } from "./history/HistoryPanel";
+import { FolderPickerDialog } from "./FolderPickerDialog";
 
 /**
  * Layout 2 ฝั่ง: VS Code จริง (iframe) เป็นหลัก + History panel ด้านขวา (พับเก็บได้)
@@ -13,6 +14,7 @@ import { HistoryPanel } from "./history/HistoryPanel";
 export function Workspace() {
   const [showHistory, setShowHistory] = useState(false);
   const [historyKey, setHistoryKey] = useState(0);
+  const [showPicker, setShowPicker] = useState(false);
 
   return (
     <div className="flex h-dvh flex-col bg-[#1e1e1e] text-zinc-100">
@@ -20,6 +22,12 @@ export function Workspace() {
       <header className="flex h-9 shrink-0 items-center gap-3 border-b border-black/40 bg-[#252526] px-3">
         <span className="text-sm font-semibold tracking-tight text-zinc-200">Code Office</span>
         <span className="font-mono text-xs text-zinc-500">VS Code + Claude</span>
+        <button
+          className="rounded border border-zinc-600 px-2 py-0.5 text-xs text-zinc-300 hover:bg-zinc-700"
+          onClick={() => setShowPicker(true)}
+        >
+          ＋ เพิ่มโฟลเดอร์
+        </button>
         <button
           className="ml-auto rounded border border-zinc-600 px-2 py-0.5 text-xs text-zinc-300 hover:bg-zinc-700"
           onClick={() => {
@@ -41,6 +49,8 @@ export function Workspace() {
           </aside>
         )}
       </div>
+
+      {showPicker && <FolderPickerDialog onClose={() => setShowPicker(false)} />}
     </div>
   );
 }
